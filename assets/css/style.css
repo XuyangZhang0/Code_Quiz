@@ -55,7 +55,7 @@ body, html {
     
   } 
 
-  .answer {
+  .answer,#btn_start {
     background-color:blueviolet;
     color:white;
     display: inline-block;

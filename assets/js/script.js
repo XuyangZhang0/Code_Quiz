@@ -47,7 +47,29 @@ const myQuestions = [
         ],
         correctAnswer: 1,
         explanation: "The correct syntax to access the element is document.getElementById(“geek”). Here we want to access the content written under that id, so we used .innerHTML to specify that and finally we replaced the content with whatever is written inside the quotes."
-    }];
+    },
+    {
+        question: "Which one of these is a JavaScript package manager?",
+        answers: [
+            "Node.js",
+            "TypeScript",
+            "npm"
+        ],
+        correctAnswer: 2,
+        explanation: ""
+    },
+    {
+        question: "Which tool can you use to ensure code quality?",
+        answers: [
+            "Angular",
+            "jQuery",
+            "RequireJS",
+            "ESLint"
+        ],
+        correctAnswer: 3,
+        explanation: ""
+    }
+];
 
 console.log(myQuestions);
 
@@ -55,24 +77,25 @@ console.log(myQuestions);
 // Button 1 (Start Game) Event Listener
 btnStartEl.addEventListener("click", startQuiz);
 
-answersEl.addEventListener("click", function(event) {
+answersEl.addEventListener("click", function (event) {
     var element = event.target;
-    if(element.matches(".answer")) {
-        var index = parseInt(element.getAttribute("id"),10);
-        if(currentQuestion.correctAnswer===index) {
+    if (element.matches(".answer")) {
+        var index = parseInt(element.getAttribute("id"), 10);
+        if (currentQuestion.correctAnswer === index) {
             resultEl.textContent = "Congrats! You got it right! 10 points added!"
             points += 10;
             setTimeout(() => {
-                showNextQuestion();                                
+                showNextQuestion();
             }, 2000);
 
         } else {
-            resultEl.textContent = `Wrong! Correct answer is ${index+1}.
+            resultEl.textContent = `Wrong! Correct answer is ${currentQuestion.correctAnswer + 1}.
             Explanation: ${currentQuestion.explanation}`
-            
+            // answersEl.innerHTML="";
+            // How do I prevent user from clicking on other answers before I show the next question?
             secondsLeft -= 10;
             setTimeout(() => {
-                showNextQuestion();                                
+                showNextQuestion();
             }, 5000);
         }
 
@@ -88,33 +111,39 @@ answersEl.addEventListener("click", function(event) {
 // show next question on the screen
 function showNextQuestion() {
     resultEl.textContent = "";
-
+    let questionAnswersHTML = "";
     currentQuestion = myQuestions.shift();
-    let questionAnswersHTML="";
-    questionEl.textContent = currentQuestion.question;
-    answers = currentQuestion.answers;
+    if (typeof currentQuestion == "object") {
+        questionEl.textContent = currentQuestion.question;
+        answers = currentQuestion.answers;
 
 
-    for (var i = 0; i < currentQuestion.answers.length; i++) {
-        questionAnswersHTML += `<p class="answer" id="${i}">${i+1}. ${answers[i]}</p>`;
-        // questionAnswersHTML += "<p>lalala</p>"
+        for (var i = 0; i < currentQuestion.answers.length; i++) {
+            questionAnswersHTML += `<p class="answer" id="${i}">${i + 1}. ${answers[i]}</p>`;
+            // questionAnswersHTML += "<p>lalala</p>"
 
-        // console.log(i);
+            // console.log(i);
+        }
+
+        answersEl.innerHTML = questionAnswersHTML;
+
+    } else {
+        alert("reached last question!");
     }
 
-    answersEl.innerHTML = questionAnswersHTML;
+
 }
 
 // Count Down
 function startQuiz() {
     // Sets interval in variable
-    btnStartEl.setAttribute("style","display: none")
+    btnStartEl.setAttribute("style", "display: none")
     secondsLeft = 75;
     showNextQuestion();
     var timerInterval = setInterval(function () {
 
         timeEl.textContent = `Time: ${secondsLeft}`;
-        
+
 
         if (secondsLeft === 0) {
             // Stops execution of action at set interval
