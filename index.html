@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Code Quiz</title>
     <link rel="stylesheet" href="./assets/css/style.css">
-    <script src="./assets/js/script.js"></script>
+
 </head>
 
 <body>
@@ -18,34 +18,39 @@
             <a href="#">View Highscores</a>
         </div>
         <div class="topright">
-            <p>Time Left</p>
+            <p id="timeleft">Time Left</p>
         </div>
         <div class="middle">
             <h1>Coding Quiz Challenge</h1>
             <div class="question-wrapper">
-                <div class="question">
-                    <h2>Question Test</h2>
+                <div class="question_area">
+                    <h2 id="question"><pre>Click below button to start quiz.
+Rules:
+Each question is worth of 10 points
+When you provided wrong answers, we will show correct answer and explanations.
+                        
+                        <pre></h2>
                     <!-- https://www.geeksforgeeks.org/javascript-quiz-set-1/ -->
                 </div>
-                <div class="answers">
-                    <p>1</p>
-                    <p>2</p>
-                    <p>3</p>
-                    <p>4</p>
+                <div class="button_area">
+                    <button class="btn" id="btn_start">Start Quiz</button>
+                    <button class="btn" id="btn2">Clear Highscores</button>
                 </div>
-                <div class="result">
+                <div class="answers_area" id="answers">
+                </div>
+                <div class="result_area">
                     <hr>
-                    <p>Right</p>
+                    <p id="result"></p>
                 </div>
             </div>
         </div>
-        
+
         <div class="bottomleft">
             <!-- another text placeholder -->
             <p></p>
         </div>
     </div>
-
+    <script src="assets/js/script.js"></script>
 </body>
 
 </html>

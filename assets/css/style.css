@@ -4,7 +4,7 @@ body, html {
   }
   
   .bgimg {
-    background-image: url('./assets/images/scenery.jpg');
+    /* background-image: url('./assets/images/scenery.jpg'); */
     height: 100%;
     background-position: center;
     background-size: cover;
@@ -43,7 +43,40 @@ body, html {
     text-align: start;
   }
   
+  .button_area {
+    text-align: center;
+  }
+
+  .answers_area {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    
+  } 
+
+  .answer {
+    background-color:blueviolet;
+    color:white;
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 10px ;
+    border-radius: 5px;
+       
+  }
+
+  .answer:hover {
+    background-color: darkblue;
+    font-weight:900;
+           
+  }
+
   hr {
     margin: auto;
     width: 100%;
   }
+
+  #btn2 {
+    display: none;
+  }
+
