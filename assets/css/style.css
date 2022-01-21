@@ -55,7 +55,7 @@ body, html {
     
   } 
 
-  .answer,#btn_start {
+  .answer,#btn_start, #btn_submit, .btn {
     background-color:blueviolet;
     color:white;
     display: inline-block;

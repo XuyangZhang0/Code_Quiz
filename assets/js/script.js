@@ -1,18 +1,29 @@
 // get all buttons and sections
 const timeEl = document.getElementById("timeleft");
 const questionEl = document.getElementById("question");
+const titleEl = document.getElementById("title");
 const answersEl = document.getElementById("answers");
-const btnStartEl = document.getElementById("btn_start");
+const startBtn = document.getElementById("btn_start");
 const resultEl = document.getElementById("result");
+const initialsInput = document.getElementById("initials");
+const submitBtn = document.getElementById("btn_submit");
+const highScorePreSubmissionEl = document.getElementById("highscore_presubmission");
+const hrlineEl = document.getElementById("hrline");
 console.log(timeEl);
 console.log(questionEl);
 console.log(answersEl);
-console.log(btnStartEl);
+console.log(startBtn);
 // declare global variables
 let currentQuestion;
 let answers;
-let points;
+let points = 0;
+let highscore = {
+    user:"",
+    score:0
+}
 let secondsLeft;
+let highscores = [];
+let isCompleted = false;
 // initialize question pool
 const myQuestions = [
     {
@@ -73,22 +84,37 @@ const myQuestions = [
 
 console.log(myQuestions);
 
+submitBtn.addEventListener("click", function() {
+    if(initialsInput.value ==="") {
+        alert("Type in your initials.");
+    } else {
+        highscore.user = initialsInput.value;
+        highscore.score = points;
+        setHighScore(highscore);
+        window.location = "./highscores.html";
+
+    }
+})
+
 
 // Button 1 (Start Game) Event Listener
-btnStartEl.addEventListener("click", startQuiz);
+startBtn.addEventListener("click", startQuiz);
 
 answersEl.addEventListener("click", function (event) {
     var element = event.target;
     if (element.matches(".answer")) {
         var index = parseInt(element.getAttribute("id"), 10);
         if (currentQuestion.correctAnswer === index) {
+            hrlineEl.setAttribute("style","margin: auto; width: 100%");
             resultEl.textContent = "Congrats! You got it right! 10 points added!"
             points += 10;
+            
             setTimeout(() => {
                 showNextQuestion();
-            }, 2000);
+            }, 1000);
 
         } else {
+            hrlineEl.setAttribute("style","margin: auto; width: 100%");
             resultEl.textContent = `Wrong! Correct answer is ${currentQuestion.correctAnswer + 1}.
             Explanation: ${currentQuestion.explanation}`
             // answersEl.innerHTML="";
@@ -112,6 +138,7 @@ answersEl.addEventListener("click", function (event) {
 function showNextQuestion() {
     resultEl.textContent = "";
     let questionAnswersHTML = "";
+    hrlineEl.setAttribute("style", "display:none");
     currentQuestion = myQuestions.shift();
     if (typeof currentQuestion == "object") {
         questionEl.textContent = currentQuestion.question;
@@ -126,9 +153,15 @@ function showNextQuestion() {
         }
 
         answersEl.innerHTML = questionAnswersHTML;
-
+    
+// Reached last question, no more question in the pool to be displayed
     } else {
-        alert("reached last question!");
+        answersEl.innerHTML="";
+        highScorePreSubmissionEl.setAttribute("style", "display:block");
+        highscore.score = points;
+        titleEl. textContent = "Quiz Completed!"
+        questionEl.textContent = `Your score is ${points}, enter your name below.`
+        isCompleted = true;
     }
 
 
@@ -137,15 +170,16 @@ function showNextQuestion() {
 // Count Down
 function startQuiz() {
     // Sets interval in variable
-    btnStartEl.setAttribute("style", "display: none")
+    startBtn.setAttribute("style", "display: none")
     secondsLeft = 75;
+    getHighScore();
     showNextQuestion();
     var timerInterval = setInterval(function () {
 
         timeEl.textContent = `Time: ${secondsLeft}`;
 
 
-        if (secondsLeft === 0) {
+        if (secondsLeft === 0 || isCompleted) {
             // Stops execution of action at set interval
             clearInterval(timerInterval);
             // Calls function end the quiz
@@ -156,10 +190,23 @@ function startQuiz() {
 }
 
 // Set high score (use local storage)
+function setHighScore(hscore) {
+    
+    highscores.push(hscore);
+    localStorage.setItem("highscores",JSON.stringify(highscores));
 
+}
 // read high score
-
+function getHighScore() {
+    if (JSON.parse(localStorage.getItem("highscores"))!==null) {
+        highscores = JSON.parse(localStorage.getItem("highscores"));
+    }
+       
+}
 // start game
 // showNextQuestion();
 
 // startQuiz();
+highScorePreSubmissionEl.setAttribute("style", "display:none");
+hrlineEl.setAttribute("style", "display:none");
+
