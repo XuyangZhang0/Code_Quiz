@@ -1,19 +1,17 @@
 body, html {
-    height: 100%;
+    height: 100vh;
     margin: 0;
+    background-color: beige;
   }
-  
-  .bgimg {
-    /* background-image: url('./assets/images/scenery.jpg'); */
-    height: 100%;
-    background-position: center;
-    background-size: cover;
-    position: relative;
-    color: black;
-    font-family: "Courier New", Courier, monospace;
-    font-size: 25px;
+
+  pre {
+    font-size: 24px;
   }
-  
+
+  h1 {
+    text-align: center;
+  }
+    
   .topleft {
     position: absolute;
     top: 0;
@@ -27,22 +25,20 @@ body, html {
     margin: 0;
     line-height: 0%;
   }
-  
-  .bottomleft {
-    position: absolute;
-    bottom: 0;
-    left: 16px;
-  }
-  
+      
   .middle {
-    position: absolute;
-    top: 30%;
+    position: relative;
+    top: 40%;
     left: 50%;
     width: 67%;
     transform: translate(-50%, -50%);
     text-align: start;
   }
-  
+
+  .rankings {
+    text-align: center;
+  }
+
   .button_area {
     text-align: center;
   }
@@ -67,8 +63,7 @@ body, html {
 
   .answer:hover {
     background-color: darkblue;
-    font-weight:900;
-           
+    font-weight:900;        
   }
 
   hr {
@@ -76,7 +71,44 @@ body, html {
     width: 100%;
   }
 
-  #btn2 {
-    display: none;
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
   }
 
+  li {
+    display: inline-block;
+    padding: 10px 100px;
+    margin: 10px;
+    background-color: lightgray;
+  }
+
+  @media screen and (max-width: 768px) {
+    .middle {
+      top: 30%;
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 48px;
+    }
+
+    h2 {
+      font-size: 12px;
+    }
+
+    p {
+      font-size: 12px;
+    }
+
+    li {
+      margin: 5px;
+      font-size: 12px;
+    }
+  }

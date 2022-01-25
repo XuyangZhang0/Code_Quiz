@@ -9,10 +9,7 @@ const initialsInput = document.getElementById("initials");
 const submitBtn = document.getElementById("btn_submit");
 const highScorePreSubmissionEl = document.getElementById("highscore_presubmission");
 const hrlineEl = document.getElementById("hrline");
-console.log(timeEl);
-console.log(questionEl);
-console.log(answersEl);
-console.log(startBtn);
+
 // declare global variables
 let currentQuestion;
 let answers;
@@ -82,8 +79,7 @@ const myQuestions = [
     }
 ];
 
-console.log(myQuestions);
-
+// submit and redirect to highscore page
 submitBtn.addEventListener("click", function() {
     if(initialsInput.value ==="") {
         alert("Type in your initials.");
@@ -96,8 +92,7 @@ submitBtn.addEventListener("click", function() {
     }
 })
 
-
-// Button 1 (Start Game) Event Listener
+// Start Game Event Listener
 startBtn.addEventListener("click", startQuiz);
 
 answersEl.addEventListener("click", function (event) {
@@ -118,7 +113,7 @@ answersEl.addEventListener("click", function (event) {
             resultEl.textContent = `Wrong! Correct answer is ${currentQuestion.correctAnswer + 1}.
             Explanation: ${currentQuestion.explanation}`
             // answersEl.innerHTML="";
-            // How do I prevent user from clicking on other answers before I show the next question?
+            // Bug to be fixed. How do I prevent user from clicking on other answers before I show the next question?
             secondsLeft -= 10;
             setTimeout(() => {
                 showNextQuestion();
@@ -128,11 +123,6 @@ answersEl.addEventListener("click", function (event) {
     }
 
 })
-
-
-
-
-
 
 // show next question on the screen
 function showNextQuestion() {
@@ -147,20 +137,12 @@ function showNextQuestion() {
 
         for (var i = 0; i < currentQuestion.answers.length; i++) {
             questionAnswersHTML += `<p class="answer" id="${i}">${i + 1}. ${answers[i]}</p>`;
-            // questionAnswersHTML += "<p>lalala</p>"
-
-            // console.log(i);
         }
 
         answersEl.innerHTML = questionAnswersHTML;
     
 // Reached last question, no more question in the pool to be displayed
     } else {
-        answersEl.innerHTML="";
-        highScorePreSubmissionEl.setAttribute("style", "display:block");
-        highscore.score = points;
-        titleEl. textContent = "Quiz Completed!"
-        questionEl.textContent = `Your score is ${points}, enter your name below.`
         isCompleted = true;
     }
 
@@ -183,16 +165,27 @@ function startQuiz() {
             // Stops execution of action at set interval
             clearInterval(timerInterval);
             // Calls function end the quiz
-            endQuiz();
+            endQuiz(); 
         }
         secondsLeft--;
     }, 1000);
+}
+
+// End quiz function (either reached end of questions or time is up)
+function endQuiz() {
+    answersEl.innerHTML="";
+    highScorePreSubmissionEl.setAttribute("style", "display:block");
+    highscore.score = points;
+    titleEl. textContent = "Quiz Completed!"
+    questionEl.textContent = `Your score is ${points}, enter your name below.`
 }
 
 // Set high score (use local storage)
 function setHighScore(hscore) {
     
     highscores.push(hscore);
+    // ES6 syntax for sorting the array by a number typed property within object
+    highscores.sort((a,b) => b.score - a.score);
     localStorage.setItem("highscores",JSON.stringify(highscores));
 
 }
@@ -203,10 +196,8 @@ function getHighScore() {
     }
        
 }
-// start game
-// showNextQuestion();
 
-// startQuiz();
+// initialize
 highScorePreSubmissionEl.setAttribute("style", "display:none");
 hrlineEl.setAttribute("style", "display:none");
 
